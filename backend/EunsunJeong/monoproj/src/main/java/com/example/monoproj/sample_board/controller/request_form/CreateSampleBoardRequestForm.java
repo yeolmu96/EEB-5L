@@ -9,11 +9,10 @@ import lombok.ToString;
 @ToString
 @RequiredArgsConstructor
 public class CreateSampleBoardRequestForm {
-
     final private String title;
-    private final String content;
+    final private String content;
 
-    public CreateSampleBoardRequestForm(Long accountId) {
-        return new CreateSampleBoardRequest(title, accountId, content);
+    public CreateSampleBoardRequest toCreateSampleBoardRequest() {
+        return new CreateSampleBoardRequest(title, content);
     }
 }

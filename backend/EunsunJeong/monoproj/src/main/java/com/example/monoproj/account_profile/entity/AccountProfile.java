@@ -44,4 +44,3 @@ public class AccountProfile {
         this.account = account;
     }
 }
-

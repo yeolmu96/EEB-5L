@@ -1,41 +1,29 @@
 package com.example.monoproj.sample_board.controller;
 
-import com.example.monoproj.board.controller.request_form.CreateBoardRequestForm;
-import com.example.monoproj.sample_board.controller.response_form.CreateSampleBoardResponseForm;
-import com.example.monoproj.sample_board.controller.response_form.ListSampleBoardResponseForm;
+import com.example.monoproj.sample_board.controller.request_form.CreateSampleBoardRequestForm;
+import com.example.monoproj.sample_board.entity.SampleBoard;
 import com.example.monoproj.sample_board.service.SampleBoardService;
-import com.example.monoproj.sample_board.service.response.CreateSampleBoardResponse;
-import com.example.monoproj.sample_board.service.response.ListSampleBoardResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@RequestMapping("/sample-board")
 @RequiredArgsConstructor
-@RequestMapping("/sample_board")
 public class SampleBoardController {
 
-    final private SampleBoardService sampleBoardService;
+    final private SampleBoardService boardService;
 
-    @PostMapping("/register")
-    public CreateSampleBoardResponseForm registerBoard(
-            @RequestBody CreateBoardRequestForm createBoardRequestForm){
+    @PostMapping("/create")
+    public SampleBoard createSampleBoard(
+            @RequestBody CreateSampleBoardRequestForm requestForm) {
 
-        log.info("registerBoard -> {}", createBoardRequestForm);
+        log.info("createSampleBoard() -> requestForm: {}", requestForm);
 
-        CreateSampleBoardResponse response = sampleBoardService
-                .register(createBoardRequestForm.toCreateBoardRequest(accountId));
-
-        return CreateSampleBoardResponseForm.from(response);
-    }
-
-
-    @GetMapping("/list")
-    public ListSampleBoardResponseForm boardList(){
-
-        ListSampleBoardResponse response = sampleBoardService.listSampleBoard();
-
-        return new ListSampleBoardResponseForm(response.getBoardListWithNicknames());
+        return boardService.create(requestForm.toCreateSampleBoardRequest());
     }
 }
